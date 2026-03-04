@@ -53,9 +53,9 @@ def albums_reviews(albumid):
 @app.route("/api/user/<userid>")
 def user_lookup(userid):
     cursor = sql.get_db().cursor()
-    cursor.execute("SELECT * FROM Account WHERE ID=%s LIMIT 1;" %str(userid))
+    cursor.execute("SELECT * FROM Account WHERE ID=%s LIMIT 1;",  str(userid))
     user = cursor.fetchone()
-    cursor.execute("SELECT * FROM Review WHERE AccountID=%d ORDER BY timestamp DESC LIMIT 5;" %user[0])
+    cursor.execute("SELECT * FROM Review WHERE AccountID=%s ORDER BY timestamp DESC LIMIT 5;", user[0])
     reviews = cursor.fetchall()
     
     return jsonify({
