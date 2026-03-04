@@ -22,6 +22,7 @@ CREATE TABLE `Review` (
     AlbumID int NOT NULL,
     timestamp timestamp NOT NULL default CURRENT_TIMESTAMP,
     Score tinyint NOT NULL,
+    Liked Boolean NOT NULL,
     Content varchar(127),
     FOREIGN KEY (AccountID) REFERENCES Account(ID),
     PRIMARY KEY (AccountID,AlbumID)
