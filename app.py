@@ -4,12 +4,13 @@ import requests, json
 
 app = Flask(__name__)
 
+#homepage
 @app.route('/')
 def home():
-    response = requests.get('https://www.theaudiodb.com/api/v1/json/123/searchalbum.php?s=daft_punk')
-    if response.status_code == 200:
-        data = response.json()
-        print(data['album'][00]['strAlbum'])
+    response = requests.get('https://www.theaudiodb.com/api/v1/json/123/searchalbum.php?s=daft_punk')           #pull data from audiodb
+    if response.status_code == 200:                                                                             #check response is good
+        data = response.json()                                                                                  #store data in var
+        print(data['album'][00]['strAlbum']) #basically goes search_Result_Container/albumIndex/attributeName   #keepAsAlbum/int/whateverYouWish
     return data['album'][00]['strAlbum']
 
 @app.route("/api/album/<albumid>")
