@@ -43,7 +43,7 @@ label {
     align-items: start;
 }
 
-#loginForm {
+#signupForm {
     margin-top: clamp(2rem, 5vw, 4rem) !important;
 }
 
@@ -53,7 +53,7 @@ label {
     font-weight: 600;
 }
 
-#email, #password {
+#email, #password, #username, #confPassword {
     border-radius: 15px;
     border: 1px solid #42427C;
     background: rgba(0, 19, 45, 0.7);
