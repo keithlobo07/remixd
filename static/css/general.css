@@ -44,7 +44,7 @@ html,body {
     background-color: var(--button-default);
     color: var(--theme-text);
     font-family: "DM Sans", sans-serif;
-    font-size: clamp(16px, 8vw, 25px);
+    font-size: clamp(16px, 2vw, 25px);
     font-weight: 600;
     line-height: normal;
     justify-content: center;
