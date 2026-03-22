@@ -1,15 +1,12 @@
-function returnLoginInfo() {
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
+function returnLoginInfo(url, redirect) {
+    const fd = new FormData(document.getElementById('loginForm'));
 
-    const request = new Request("http://127.0.0.1:5000/api/authenticate", {
-        "method":"POST",
-        "body":{
-            "email":email,
-            "password":password
-        }
+    const request = new Request(url, {
+        method:"POST",
+        body:fd
     });
 
-    console.log(request)
-    fetch(request);
+    console.log(request);
+
+    fetch(request).then(response => {window.location.replace(redirect)});
 }

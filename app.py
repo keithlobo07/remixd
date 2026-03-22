@@ -5,6 +5,8 @@ from flaskext.mysql import MySQL
 app = Flask(__name__)
 sql = MySQL(app)
 
+app.secret_key = "cf39da25450430eb49098ec3f99b19cb4977a00355dbfd822a46626c262e1179"
+
 app.config["MYSQL_DATABASE_HOST"] = "remixd.csumcw23kuop.us-east-1.rds.amazonaws.com"
 app.config["MYSQL_DATABASE_USER"] = "admin"
 app.config["MYSQL_DATABASE_PASSWORD"] = "O75BmgKdl9ZPnacoEwwQ"
@@ -122,14 +124,34 @@ def admin_user_search():
 
 @app.post("/api/authenticate")
 def authenticate():
-    print("authentication request")
     email = request.form['email']
     password = request.form['password']
-    print(email, password)
-    return redirect(url_for('login_page'))
+    cursor = sql.get_db().cursor()
+    cursor.execute("SELECT ID FROM Account WHERE email = %s AND password = %s", (email, password))
+    results = cursor.fetchone()
+    if results != None:
+        session['id'] = results[0]
+    return redirect(url_for("cookie_check"))
+
+@app.route("/api/logout")
+def logout():
+    session.pop('id', None)
+    return login_page()
+
+@app.route("/home")
+def home():
+    return render_template("allAlbumView.html")
+
+@app.route("/api/cookies")
+def cookie_check():
+    if 'id' in session:
+        return "logged in as %d" %session['id']
+    return "not logged in"
 
 @app.route("/login")
 def login_page():
+    if 'id' in session:
+        return home()
     return render_template("login.html")
 
 

@@ -33,20 +33,19 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-6 col-lg-4 text-start">
-                    <form id="loginForm" method="POST" action="{{ url_for('authenticate') }}">
+                    <form id="loginForm" name="loginForm" method="POST" action="{{ url_for('authenticate') }}">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
                         </div>
-                        <button type="submit" class="btn">submit</button>
                     </form>
                 </div>
                 <div class="col-12 align-content-center mx-auto">
-                    <button type="submit" class="btn" onClick="returnLoginInfo({{ url_for('authenticate') }})">
+                    <button type="submit" class="btn" onClick="returnLoginInfo('{{ url_for('authenticate') }}', '{{ url_for('cookie_check') }}')" id="submitbutton">
                         <span>Log in</span>
                         <img src="login-assets/arrow-forward.svg" style="width: 24px; height: 24px;">
                     </button>
