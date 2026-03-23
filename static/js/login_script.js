@@ -6,7 +6,5 @@ function returnLoginInfo(url, redirect) {
         body:fd
     });
 
-    console.log(request);
-
     fetch(request).then(response => {window.location.replace(redirect)});
 }
