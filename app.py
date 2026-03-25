@@ -126,7 +126,6 @@ def admin_user_search():
 def authenticate():
     email = request.form['email']
     password = request.form['password']
-    print(email, password)
     cursor = sql.get_db().cursor()
     cursor.execute("SELECT ID FROM Account WHERE email = %s AND password = %s", (email, password))
     results = cursor.fetchone()
