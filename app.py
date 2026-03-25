@@ -1,9 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import *
 from flaskext.mysql import MySQL
 
 
 app = Flask(__name__)
 sql = MySQL(app)
+
+app.secret_key = "cf39da25450430eb49098ec3f99b19cb4977a00355dbfd822a46626c262e1179"
 
 app.config["MYSQL_DATABASE_HOST"] = "remixd.csumcw23kuop.us-east-1.rds.amazonaws.com"
 app.config["MYSQL_DATABASE_USER"] = "admin"
@@ -119,6 +121,44 @@ def admin_user_search():
     return jsonify({
         "users":[{"accountID":x[0], "name":x[1], "numReports":x[2]} for x in results]
     })
+
+@app.post("/api/authenticate")
+def authenticate():
+    email = request.form['email']
+    password = request.form['password']
+    cursor = sql.get_db().cursor()
+    cursor.execute("SELECT ID FROM Account WHERE email = %s AND password = %s", (email, password))
+    results = cursor.fetchone()
+    if results != None:
+        session['id'] = results[0]
+        return redirect(url_for("home")), 303
+    else: # login failed
+        return redirect(url_for("login_page")), 403
+
+
+@app.route("/api/logout")
+def logout():
+    if 'id' in session:
+        session.pop('id', None)
+    return redirect(url_for("login_page")), 200
+
+@app.route("/home")
+def home():
+    return render_template("allAlbumView.html"), 200
+
+@app.route("/api/session")
+def session_check():
+    if 'id' in session:
+        return "logged in as %d" %session['id']
+    return "not logged in"
+
+@app.route("/login")
+def login_page():
+    if 'id' in session:
+        return redirect(url_for("home")), 200
+    return render_template("login.html"), 200
+
+
 
 if __name__ == "__main__":
     app.run()
