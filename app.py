@@ -131,19 +131,23 @@ def authenticate():
     results = cursor.fetchone()
     if results != None:
         session['id'] = results[0]
-    return redirect(url_for("cookie_check"))
+        return redirect(url_for("home")), 303
+    else: # login failed
+        return redirect(url_for("login_page")), 403
+
 
 @app.route("/api/logout")
 def logout():
-    session.pop('id', None)
-    return login_page()
+    if 'id' in session:
+        session.pop('id', None)
+    return redirect(url_for("login_page")), 200
 
 @app.route("/home")
 def home():
-    return render_template("allAlbumView.html")
+    return render_template("allAlbumView.html"), 200
 
-@app.route("/api/cookies")
-def cookie_check():
+@app.route("/api/session")
+def session_check():
     if 'id' in session:
         return "logged in as %d" %session['id']
     return "not logged in"
@@ -151,8 +155,8 @@ def cookie_check():
 @app.route("/login")
 def login_page():
     if 'id' in session:
-        return home()
-    return render_template("login.html")
+        return redirect(url_for("home")), 200
+    return render_template("login.html"), 200
 
 
 
