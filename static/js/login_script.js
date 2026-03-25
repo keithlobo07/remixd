@@ -1,5 +1,8 @@
 function returnLoginInfo(url) {
+
     const fd = new FormData(document.getElementById('loginForm'));
+
+    fd.set('password', sha256(fd.get('password')))
 
     const request = new Request(url, {
         method:"POST",
