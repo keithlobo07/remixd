@@ -3,6 +3,7 @@ function returnSignupInfo(url) {
     const fd = new FormData(document.getElementById('signupForm'));
 
     if (fd.get('password') != fd.get('confPassword')) {
+        // show message to the user about passwords not matching
         console.error("passwords dont match");
     } else {
 
@@ -14,15 +15,14 @@ function returnSignupInfo(url) {
             body:fd
         });
 
-        console.log(request)
-
         fetch(request).then(response => {
             if (response.status == 201) {
                 fetch("/home").then(response => {
                     window.location.href = response.url
                 })
             } else {
-                console.log(response)
+                // show message to the user about email being taken
+                
             }
         });
     }
